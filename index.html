@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kinara | Our Journey</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💕</text></svg>">
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS (production build) -->
+    <link rel="stylesheet" href="tailwind.css">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -187,15 +187,13 @@
                 again?</button>
         </div>
 
-        <!-- Local MP3 — primary audio source (most reliable) -->
-        <audio id="bg-audio" loop style="display:none;">
-            <source src="meribanogikya.mp3" type="audio/mpeg">
-        </audio>
-
-        <!-- YouTube iframe fallback — for when no local file exists -->
-        <iframe id="yt-music" src="" width="1" height="1"
+        <!-- YouTube iframe for music — activated on user tap -->
+        <iframe id="yt-music"
+            src=""
+            width="1" height="1"
             style="position:fixed;bottom:0;right:0;opacity:0;pointer-events:none;border:none;z-index:-1;"
-            allow="autoplay; encrypted-media" allowfullscreen>
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
         </iframe>
     </section>
 
