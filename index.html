@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinara | Our Journey</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Cormorant+Garamond:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-[#0A0A0A] text-white selection:bg-white selection:text-black overflow-x-hidden">
+
+    <div id="loader" class="fixed inset-0 z-[1000] bg-[#0A0A0A] flex items-center justify-center">
+        <div class="text-4xl font-serif tracking-widest animate-pulse">|</div>
+    </div>
+
+    <!-- Chapter 1: The Echoes -->
+    <section id="chapter-1" class="relative min-h-screen">
+        <div id="scroll-intro" class="h-screen flex items-center justify-center text-center px-4">
+            <h1 class="text-3xl md:text-5xl font-serif text-reveal">"I have been writing some things down... for a while
+                now."</h1>
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="memories-container max-w-2xl mx-auto py-20 px-6 space-y-[60vh]">
+            <div class="memory-card opacity-0 translate-y-20 transition-all duration-1000">
+                <p class="memory-text text-xl font-light text-gray-400 mb-6 italic leading-relaxed" data-text="It’s the small things the way you pronounce certain words the way you call and say bhidu aur paaji its sooo cute , the way you smile closing your eyes or just walk uchalte kudte hue its sooooo cuteeeeeeee"></p>
+                <h2 class="shayri text-4xl font-serif italic text-white opacity-0 transition-opacity duration-[2000ms]">Sundar si muskan teri, khubsurat tere baal hai... Tu dekhti cheezon ko is tarah hai ki teri bas baatein sunna Mann mein laa deta pyaare se khayal hai.</h2>
+            </div>
+
+            <div class="memory-card opacity-0 translate-y-20 transition-all duration-1000">
+                <p class="memory-text text-xl font-light text-gray-400 mb-6 italic leading-relaxed" data-text="I love the way I started worshiping this feeling I have about you it just feels that I am praying every second and I am loving uh ever sec too"></p>
+                <h2 class="shayri text-4xl font-serif italic text-white opacity-0 transition-opacity duration-[2000ms]">Main kya kahu main khuda ko bhul-kar tujhme ya-keen rakhta hu... Main apni dhad-kan mein tumhe tumhara naam sunana chahta hu Par sunate hue hi dhad-kan rukne se darta hu.</h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapter 2: The Playful Heart -->
+    <section id="chapter-2"
+        class="relative min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center p-6 space-y-12">
+        <div id="game-a" class="w-full max-w-xl text-center space-y-8">
+            <h2 class="text-4xl font-serif mb-8 overflow-hidden"><span
+                    class="block translate-y-full transition-transform duration-700">The Choice of Us</span></h2>
+            <div class="game-a-step active" data-step="1">
+                <p class="text-xl text-gray-300 mb-6">The whole world or just you?</p>
+                <div class="flex gap-4 justify-center">
+                    <button class="choice-btn glass">The World</button>
+                    <button class="choice-btn glass">Just You</button>
+                </div>
+            </div>
+            <div class="game-a-step hidden opacity-0" data-step="2">
+                <p class="text-xl text-gray-300 mb-6">A lifetime of adventure or Just you?</p>
+                <div class="flex gap-4 justify-center">
+                    <button class="choice-btn glass">Adventure</button>
+                    <button class="choice-btn glass">Just You</button>
+                </div>
+            </div>
+            <div class="game-a-step hidden opacity-0" data-step="3">
+                <p class="text-xl text-gray-300 mb-6">Everything I have or Just you?</p>
+                <div class="flex gap-4 justify-center">
+                    <button class="choice-btn glass">Everything</button>
+                    <button class="choice-btn glass">Just You</button>
+                </div>
+            </div>
+            <div id="game-a-result" class="hidden opacity-0 text-2xl font-serif text-white">
+                "It's always been you. It's only ever been you."
+            </div>
+        </div>
+
+        <div id="game-divider" class="h-20 w-px bg-gradient-to-b from-white to-transparent opacity-20"></div>
+
+        <div id="game-b" class="w-full max-w-2xl text-center space-y-8 hidden">
+            <h2 class="text-4xl font-serif mb-4">Digital Maze of Feelings</h2>
+            <p class="text-gray-400 mb-4">Follow the glowing path to reach the heart...</p>
+            <div
+                class="relative w-full aspect-video bg-[#111] rounded-xl overflow-hidden cursor-crosshair border border-white/10">
+                <canvas id="maze-canvas" class="absolute inset-0"></canvas>
+                <div id="maze-message"
+                    class="absolute top-4 left-1/2 -translate-x-1/2 text-red-500 font-serif opacity-0 transition-opacity duration-300 pointer-events-none">
+                    Try again, I'm waiting for you</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapter 3: The Kinara -->
+    <section id="chapter-3"
+        class="relative min-h-screen bg-[#0A0A0A] transition-colors duration-[3s] flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+        <div class="proposal-container max-w-3xl space-y-12 z-10 w-full">
+            <div id="final-intro" class="text-2xl md:text-3xl font-serif leading-relaxed min-h-[5rem] text-gray-300">
+            </div>
+
+            <div id="pre-proposal" class="hidden space-y-8 opacity-0">
+                <h2 class="text-3xl font-serif italic text-white">btwwwwwwww can i ask you something ???</h2>
+                <div class="flex gap-6 justify-center">
+                    <button id="pre-yes" class="glass px-8 py-2">Yes</button>
+                    <button id="pre-no" class="glass px-8 py-2">No</button>
+                </div>
+                <div id="pre-no-msg" class="text-xl font-serif text-pink-300 hidden">id still ask that to you bebu</div>
+            </div>
+
+            <div id="proposal-stage" class="hidden space-y-12">
+                <h1 id="proposal-text" class="text-4xl md:text-6xl font-serif italic text-white leading-tight">Will You
+                    Be My Girl?</h1>
+                
+                <div id="proposal-shayri" class="text-2xl font-serif italic text-white opacity-0 mt-8">
+                    “Tumhari us dhadkan mein jisme mera naam goonjne lage<br>
+                    Main thaher jaunga tumhare us kha-yaal mein...<br>
+                    Tumhare samandar ka main kinara hu.”
+                </div>
+
+                <div class="visualizer-container flex items-end justify-center gap-1 h-24 opacity-20">
+                    <!-- Visualizer bars -->
+                </div>
+
+                <!-- Premium music button — appears when proposal loads -->
+                <div id="music-player-btn" class="opacity-0 transition-opacity duration-1000 flex flex-col items-center gap-2">
+                    <button id="play-song-btn"
+                        class="group relative px-8 py-3 rounded-full border border-white/20 text-white/70 hover:text-white hover:border-white/60 transition-all duration-500 text-sm font-light tracking-widest"
+                        onclick="startSong(this)">
+                        <span class="mr-2">♫</span> Play Our Song
+                        <span class="absolute inset-0 rounded-full bg-white/5 group-hover:bg-white/10 transition-all"></span>
+                    </button>
+                    <div id="now-playing" class="hidden text-xs text-white/30 tracking-widest animate-pulse">♫ now playing...</div>
+                </div>
+
+                <div class="actions flex flex-wrap gap-6 justify-center items-center">
+                    <button id="btn-yes"
+                        class="px-12 py-4 bg-white text-black font-semibold rounded-full hover:scale-105 transition-transform text-xl">Yes!</button>
+                    <button id="btn-say-again"
+                        class="px-12 py-4 border border-white/20 hover:border-white/60 transition-colors rounded-full text-xl text-white">Yes, but say it again.</button>
+                    <button id="btn-no"
+                        class="px-8 py-2 border border-white/10 text-gray-500 hover:text-red-400 hover:border-red-400/30 transition-all rounded-full text-sm">No</button>
+                </div>
+            </div>
+
+        </div>
+        </div>
+
+        <div id="success-screen"
+            class="hidden fixed inset-0 z-[200] flex flex-col items-center justify-center p-6 space-y-8 text-black">
+            <div class="text-8xl md:text-9xl animate-bounce">💕</div>
+            <h1 class="text-4xl md:text-5xl font-serif italic text-center leading-snug">i pippofied uh</h1>
+            <h2 class="text-xl md:text-2xl font-light italic max-w-xl text-center opacity-80">and now i have the most beautiful responsibility in the world — to love these princess forever 🌙</h2>
+            <div id="yes-confetti-emojis" class="flex gap-4 text-4xl animate-pulse">🌸 💗 ✨ 💝 🌸</div>
+        </div>
+
+        <div id="reject-screen"
+            class="hidden fixed inset-0 z-[200] flex flex-col items-center justify-center p-6 space-y-8 bg-[#1a1a1a] text-white">
+            <div class="text-8xl" style="filter: grayscale(1); animation: heartThrob 2s ease-in-out infinite;">😢</div>
+            <h2 class="text-2xl font-serif italic max-w-xl text-center">"Even a 'No' from you is a story I'll keep.
+                <br><span class="text-sm opacity-50">I'll still be here, at the Kinara."</span></h2>
+            <button onclick="location.reload()" class="text-xs border border-white/20 px-4 py-2 rounded-full opacity-30 hover:opacity-100 transition-opacity">Try again?</button>
+        </div>
+
+        <!-- Local MP3 — primary audio source (most reliable) -->
+        <audio id="bg-audio" loop style="display:none;">
+            <source src="meribanogikya.mp3" type="audio/mpeg">
+        </audio>
+
+        <!-- YouTube iframe fallback — for when no local file exists -->
+        <iframe id="yt-music"
+            src=""
+            width="1" height="1"
+            style="position:fixed;bottom:0;right:0;opacity:0;pointer-events:none;border:none;z-index:-1;"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
