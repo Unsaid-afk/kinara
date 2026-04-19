@@ -3,27 +3,35 @@
 function startSong(btn) {
     const audio = document.getElementById('bg-audio');
     const nowPlaying = document.getElementById('now-playing');
+    
+    console.log("Attempting to start music...");
+    if (!audio) {
+        console.error("Audio element #bg-audio not found!");
+        return;
+    }
 
-    if (audio) {
-        audio.volume = 0.8;
-        // In case local file is missing, try a reliable direct MP3 fallback
-        const playPromise = audio.play();
+    audio.volume = 0.8;
+    const playPromise = audio.play();
 
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                // Success!
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+            if (btn) btn.style.display = 'none';
+            if (nowPlaying) nowPlaying.classList.remove('hidden');
+            console.log("✅ Music started successfully!");
+        }).catch(error => {
+            console.error("❌ Audio playback failed:", error);
+            console.log("Trying fallback source...");
+            audio.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+            audio.load();
+            audio.play().then(() => {
                 if (btn) btn.style.display = 'none';
                 if (nowPlaying) nowPlaying.classList.remove('hidden');
-                console.log("Music started successfully");
-            }).catch(error => {
-                console.error("Audio playback error:", error);
-                // If it failed, try to change src to a direct reliable link as fallback
-                audio.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"; // Placeholder direct link
-                audio.play();
-                if (btn) btn.style.display = 'none';
-                if (nowPlaying) nowPlaying.classList.remove('hidden');
+                console.log("✅ Fallback music started!");
+            }).catch(e => {
+                console.error("❌ Fallback also failed. Browser might be blocking local media access.", e);
+                alert("Please ensure 'meribanogikya.mp3' is in the folder and that you are using a browser that allows local audio playback!");
             });
-        }
+        });
     }
 }
 
