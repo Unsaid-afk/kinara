@@ -1,31 +1,30 @@
 // Music player — requires one user tap (browser autoplay policy)
+// Music player — using local audio or direct MP3 links to bypass Tracking Prevention
 function startSong(btn) {
-    const iframe = document.getElementById('yt-music');
     const audio = document.getElementById('bg-audio');
     const nowPlaying = document.getElementById('now-playing');
-    const playerBtn = document.getElementById('music-player-btn');
 
-    // Try local MP3 first
     if (audio) {
-        audio.volume = 1;
-        const p = audio.play();
-        if (p !== undefined) {
-            p.then(() => {
-                // Local file works!
+        audio.volume = 0.8;
+        // In case local file is missing, try a reliable direct MP3 fallback
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                // Success!
                 if (btn) btn.style.display = 'none';
                 if (nowPlaying) nowPlaying.classList.remove('hidden');
-                return;
-            }).catch(() => {});
+                console.log("Music started successfully");
+            }).catch(error => {
+                console.error("Audio playback error:", error);
+                // If it failed, try to change src to a direct reliable link as fallback
+                audio.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"; // Placeholder direct link
+                audio.play();
+                if (btn) btn.style.display = 'none';
+                if (nowPlaying) nowPlaying.classList.remove('hidden');
+            });
         }
     }
-
-    // Set YouTube iframe src on user tap (this ALWAYS works with user gesture)
-    if (iframe) {
-        iframe.src = 'https://www.youtube.com/embed/9obfHCkaxD0?autoplay=1&mute=0&loop=1&playlist=9obfHCkaxD0&controls=0&modestbranding=1&rel=0';
-    }
-
-    if (btn) btn.style.display = 'none';
-    if (nowPlaying) nowPlaying.classList.remove('hidden');
 }
 
 function playProposalSong() {
@@ -477,4 +476,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // BACKUP: If the music button fails, try playing on any user click in Chapter 3
+    document.getElementById('chapter-3').addEventListener('click', () => {
+        const audio = document.getElementById('bg-audio');
+        if (audio && audio.paused) {
+            audio.play().catch(e => console.log("Automatic play backup failed:", e));
+        }
+    }, { once: true });
 });
