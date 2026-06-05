@@ -162,3 +162,37 @@ body::after {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
 }
+
+/* RAHAT Feature Styles */
+#rahat-btn-container {
+    z-index: 150;
+}
+
+#rahat-btn {
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+    color: #ffb6c1; /* pink-200 equivalent */
+}
+
+#rahat-btn:hover {
+    color: #fff;
+    transform: scale(1.05);
+}
+
+#rahat-modal {
+    z-index: 250;
+    background-color: rgba(10, 10, 10, 0.95);
+}
+
+#letter-screen {
+    box-shadow: 0 0 50px rgba(255, 105, 180, 0.1);
+    background-color: #111;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#letter-text-container {
+    white-space: pre-wrap;
+}
+
+.text-pink-200 { color: #ffb6c1; }
+.text-pink-300 { color: #ff9fb4; }
+.text-red-400 { color: #ff8787; }

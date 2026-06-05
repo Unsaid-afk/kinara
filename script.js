@@ -492,4 +492,143 @@ document.addEventListener('DOMContentLoaded', () => {
             audio.play().catch(e => console.log("Automatic play backup failed:", e));
         }
     }, { once: true });
+
+    // RAHAT Feature Logic
+    const rahatData = [
+        { 
+            date: "5/6/2026", 
+            riddle: "as its day 1 as u r not in that great mind to really put sooo much brain into it id keep it thoda sa simple u just answer this question bhot simple hai hume ek dusre ke liye itna khas bane kitne din hue hai (hint its from narmada parikrama) enter just the date just the date and month number .", 
+            answer: "804", 
+            letter: `hie pippo 
+you had a long tough tiring day actually u even cried allot I hate it but its not your fault 
+I lied m not working on manav wala project woh kal karunga itna kuch sochkar rakha tha tujhe bolne ke liye kitna kuch kehna tha but vc par hi bol diya its like i started and couldn't stop i feel allot rn tbh i didn't even code Pehle Pehle i just made an implementation txt file when i told uh ki main yeh karne wala hu but if i told ki main ab start karunga toh ud maybe stop me and tumhe mana kaha hi kar pata hu main abhi bhi m writing it while i am on a vc with uh . meri jaan agar koi spelling mistake ho jae toh let it go .
+uk i really feel uh when u r sad when your dad did scold uh but this time it was the first time i had no solution to it i had no answer to it u just asked why your freedom is something they own and i had no answer to it but i wanted to be with uh i didn't really stay but trust me jaan i tried my best i hate trying my best and failing ud say i didn't fail but i wasn't there when u needed i disappear when uh want me the most and thats a failure fr m not going tooo hard on myself m totally fine uk i hate the concept when your partner says i cant do anything in this or that like dude u r in love tum chaho toh kuch bhi kar sakte ho love surely gives pain and many problems but it gives some awesome superpower and u r that superpower of mine. abhi main tujhe hi dekh rha hu u r into your phone but i notice your eyes your hair your cheeks your lips your fingers even your eyebrows they r sooo pretty uh r soooo pretty this black colour never felt sooo colourful when u have it on yourself its like being the most colourful colour m unable to explain it but but u know it jaaan u feel it u surely can u have no idea m writing this also u have no idea how much love m feeling rn (yeh padhne ke baad u will look at me with my lovely smile ha ha smile is yours only but u r mine na ) dekha u did see it Pehle u weren't about to but just cuz i told so ab tu dekhegi 
+the whole concept of this website is to express myself to uh but in a more creative way so that uh feel more special 
+tumne abhi abhi pucha ki kya hua while i was smiling looking at uh i did just wave my head and say kuch nhi but jaana asal me tumse aur pyaar ho raha hai bhot saara ho raha hai beinteha ho raha hai 
+tbh id just say all your sorrows r mine too u rnt alone in anything even if u wanna leave everything and just be alone u wont be alone (sounds creepy but its just and just care and love )ud never be alone id always be there id always stay no matter even if u dont want me to . when u sent me your poem abhi it felt better and now ik its working u nd me are working m working for uh m the right one for uh . i still feel there are parts of yours jaha tak main ab tak nhi phoch paya and if anything like that is there ik only i can reach if those parts exist which are even away from me i feel m really close to them i soo confident that m the only one who can really really feel uh and m blessed to be that. 
+abhi tu website ke baare me bata rhi hai but trust me u look so pretty sachi tumhara har dukh har dard har aasu jitna tumhara hai utna mera bhi hai and trust me main yeh maan chuka hu so i wont really be ever able to leave uh alone in anything or anytime u say me to go away and just leave uh alone m sorry but m not sorry and id be always there jaldi or late but id be there just be happy jaaan sab theek ho jaega hum sab kar lenge pakka meri jaaan.
+i love uh the mosssssssssssssssssssssssstttttttttttttttt and forever my loveeeeee
+i always am all yours` 
+        },
+        { date: "Day 2 (Placeholder)", riddle: "I’m tall when I’m young, and I’m short when I’m old. What am I?", answer: "candle", letter: "This is the second letter. Replace it later." },
+        { date: "Day 3 (Placeholder)", riddle: "What month of the year has 28 days?", answer: "all of them", letter: "This is the third letter. Replace it later." },
+        { date: "Day 4 (Placeholder)", riddle: "What is full of holes but still holds water?", answer: "sponge", letter: "This is the fourth letter. Replace it later." },
+        { date: "Day 5 (Placeholder)", riddle: "What question can you never answer yes to?", answer: "are you asleep", letter: "This is the fifth and final letter. Replace it later." }
+    ];
+
+    const rahatBtnContainer = document.getElementById('rahat-btn-container');
+    const rahatBtn = document.getElementById('rahat-btn');
+    const rahatModal = document.getElementById('rahat-modal');
+    const closeRahat = document.getElementById('close-rahat');
+    const datesScreen = document.getElementById('dates-screen');
+    const datesGrid = document.getElementById('dates-grid');
+    
+    const riddleScreen = document.getElementById('riddle-screen');
+    const riddleDate = document.getElementById('riddle-date');
+    const riddleText = document.getElementById('riddle-text');
+    const riddleAnswer = document.getElementById('riddle-answer');
+    const riddleSubmit = document.getElementById('riddle-submit');
+    const riddleError = document.getElementById('riddle-error');
+    const backToDates = document.getElementById('back-to-dates');
+
+    const letterScreen = document.getElementById('letter-screen');
+    const closeLetter = document.getElementById('close-letter');
+    const letterTextContainer = document.getElementById('letter-text-container');
+
+    let currentDayIndex = -1;
+
+    if (rahatBtnContainer) {
+        // Show RAHAT button on scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                rahatBtnContainer.style.opacity = '1';
+                rahatBtnContainer.style.pointerEvents = 'auto';
+            } else {
+                rahatBtnContainer.style.opacity = '0';
+                rahatBtnContainer.style.pointerEvents = 'none';
+            }
+        });
+
+        // Generate Date Buttons
+        rahatData.forEach((data, index) => {
+            const btn = document.createElement('button');
+            btn.className = "glass px-6 py-8 text-xl font-serif text-pink-200 hover:text-white transition-all transform hover:scale-105 flex-1 min-w-[150px]";
+            btn.innerHTML = `<span class="block text-3xl mb-2">💌</span>${data.date}`;
+            btn.addEventListener('click', () => {
+                currentDayIndex = index;
+                openRiddle(index);
+            });
+            datesGrid.appendChild(btn);
+        });
+
+        rahatBtn.addEventListener('click', () => {
+            rahatModal.classList.remove('hidden');
+            gsap.fromTo(rahatModal, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+            showDatesScreen();
+        });
+
+        closeRahat.addEventListener('click', () => {
+            gsap.to(rahatModal, { opacity: 0, duration: 0.5, onComplete: () => rahatModal.classList.add('hidden') });
+        });
+
+        backToDates.addEventListener('click', () => {
+            showDatesScreen();
+        });
+
+        closeLetter.addEventListener('click', () => {
+            showDatesScreen();
+        });
+
+        function showDatesScreen() {
+            riddleScreen.classList.add('hidden');
+            letterScreen.classList.add('hidden');
+            datesScreen.classList.remove('hidden');
+            gsap.fromTo(datesScreen, { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.5 });
+        }
+
+        function openRiddle(index) {
+            const data = rahatData[index];
+            datesScreen.classList.add('hidden');
+            riddleScreen.classList.remove('hidden');
+            
+            riddleDate.textContent = data.date;
+            riddleText.textContent = `"${data.riddle}"`;
+            riddleAnswer.value = "";
+            riddleError.style.opacity = '0';
+            
+            gsap.fromTo(riddleScreen, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 });
+        }
+
+        riddleSubmit.addEventListener('click', () => {
+            checkPassword();
+        });
+
+        riddleAnswer.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkPassword();
+        });
+
+        function checkPassword() {
+            if (currentDayIndex === -1) return;
+            const data = rahatData[currentDayIndex];
+            const userAns = riddleAnswer.value.trim().toLowerCase();
+            
+            if (userAns === data.answer.toLowerCase()) {
+                openLetter(data.letter);
+            } else {
+                riddleError.style.opacity = '1';
+                gsap.fromTo(riddleAnswer, { x: -5 }, { x: 5, duration: 0.1, repeat: 3, yoyo: true });
+            }
+        }
+
+        function openLetter(text) {
+            riddleScreen.classList.add('hidden');
+            letterScreen.classList.remove('hidden');
+            letterTextContainer.innerHTML = "";
+            
+            gsap.fromTo(letterScreen, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.5, onComplete: () => {
+                // Typing effect
+                typeEffect(letterTextContainer, text, 40);
+            }});
+        }
+    }
 });

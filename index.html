@@ -19,7 +19,7 @@
     <script src="ScrollTrigger.min.js"></script>
     <script src="TextPlugin.min.js"></script>
     <script src="confetti.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 
 <body class="bg-[#0A0A0A] text-white selection:bg-white selection:text-black overflow-x-hidden">
@@ -187,6 +187,42 @@
                 again?</button>
         </div>
 
+        <!-- RAHAT Feature -->
+        <div id="rahat-btn-container" style="position: fixed !important; bottom: 30px !important; right: 30px !important; z-index: 9999 !important; opacity: 0; pointer-events: none; transition: opacity 1s ease, transform 0.3s ease;">
+            <button id="rahat-btn" class="glass" style="padding: 15px 30px; font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; letter-spacing: 0.1em; color: #ffb6c1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; cursor: pointer; box-shadow: 0 0 20px rgba(255,105,180,0.3);">
+                RAHAT
+            </button>
+        </div>
+
+        <div id="rahat-modal" class="hidden fixed inset-0 z-[250] bg-[#0A0A0A]/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-white overflow-y-auto">
+            <button id="close-rahat" class="absolute top-8 right-8 text-gray-400 hover:text-white text-3xl">&times;</button>
+            
+            <div id="dates-screen" class="w-full max-w-4xl space-y-12 flex flex-col items-center">
+                <h2 class="text-4xl md:text-5xl font-serif italic text-center mb-12 text-pink-200" style="text-shadow: 0 0 15px rgba(255,192,203,0.3);">5 Days of Rahat</h2>
+                <div id="dates-grid" class="flex flex-wrap justify-center gap-6 w-full">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <div id="riddle-screen" class="hidden w-full max-w-xl text-center space-y-8">
+                <h3 class="text-2xl text-pink-300 font-serif italic" id="riddle-date"></h3>
+                <p class="text-xl md:text-2xl font-light text-gray-300" id="riddle-text"></p>
+                <div class="space-y-4 w-full max-w-sm mx-auto">
+                    <input type="text" id="riddle-answer" placeholder="Your Answer..." class="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-center text-white focus:outline-none focus:border-pink-300 transition-colors">
+                    <button id="riddle-submit" class="glass px-8 py-2 text-lg w-full">Unlock Letter</button>
+                </div>
+                <p id="riddle-error" class="text-red-400 opacity-0 transition-opacity">Incorrect, try again...</p>
+                <button id="back-to-dates" class="text-sm text-gray-500 hover:text-white mt-8 underline">Back to dates</button>
+            </div>
+
+            <div id="letter-screen" class="hidden w-full max-w-2xl bg-[#111] border border-white/10 rounded-2xl p-8 md:p-12 relative shadow-[0_0_50px_rgba(255,105,180,0.1)]">
+                <button id="close-letter" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+                <div class="letter-content min-h-[300px]">
+                    <p id="letter-text-container" class="text-xl md:text-2xl font-serif italic text-gray-200 leading-relaxed"></p>
+                </div>
+            </div>
+        </div>
+
         <!-- Background Audio (Local & Fallback) -->
         <audio id="bg-audio" loop>
             <source src="meribanogikya.mp3" type="audio/mpeg">
@@ -194,7 +230,7 @@
         </audio>
     </section>
 
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
 </body>
 
 </html>
