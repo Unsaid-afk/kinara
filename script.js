@@ -43,6 +43,49 @@ function playProposalSong() {
     }, 800);
 }
 
+// ===== CLOUD SCENERY AUDIO — Real Songs =====
+let currentCloudAudio = null;
+
+const cloudSongs = [
+    "Aaj Se Teri - Lyrical  Padman  Akshay Kumar & Radhika Apte  Arijit Singh  Amit Trivedi - Zee Music Company.mp3",
+    "Mere Nishan - Mohammed.mp3",
+    "Shirt Da Button Full Song  Kya Super Kool Hain Hum  Neha Sharma, Tusshar Kapoor, Riteish Deshmukh - T-Series.mp3",
+    "ZERO Mere Naam Tu Full Song  Shah Rukh Khan, Anushka Sharma, Katrina Kaif  Ajay-Atul T-Series - T-Series.mp3",
+    "Arijit Singh - Tera Hoke Rahoon  Rajkummar Rao & Shruti Haasan  Behen Hogi Teri  Lyrical - Soulful Arijit Singh Songs.mp3",
+    "Jai Waetford - Shy - jaiwaetfordauVEVO.mp3"
+];
+
+function playCloudTrack(index) {
+    stopCloudTrack();
+
+    // Pause the main background song if it is playing
+    const bgAudio = document.getElementById('bg-audio');
+    if (bgAudio && !bgAudio.paused) {
+        bgAudio.pause();
+        bgAudio.dataset.wasPlaying = 'true';
+    }
+
+    const songFile = cloudSongs[index % cloudSongs.length];
+    currentCloudAudio = new Audio(songFile);
+    currentCloudAudio.volume = 0.8;
+    currentCloudAudio.play().catch(e => console.log("Audio play prevented:", e));
+}
+
+function stopCloudTrack() {
+    if (currentCloudAudio) {
+        currentCloudAudio.pause();
+        currentCloudAudio.currentTime = 0;
+        currentCloudAudio = null;
+        
+        // Resume background audio if it was playing before
+        const bgAudio = document.getElementById('bg-audio');
+        if (bgAudio && bgAudio.dataset.wasPlaying === 'true') {
+            bgAudio.play().catch(e => console.log("Bg audio play prevented:", e));
+            bgAudio.dataset.wasPlaying = 'false';
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
@@ -510,7 +553,7 @@ abhi tu website ke baare me bata rhi hai but trust me u look so pretty sachi tum
 i love uh the mosssssssssssssssssssssssstttttttttttttttt and forever my loveeeeee
 i always am all yours` 
         },
-        { date: "Day 2 (Placeholder)", riddle: "I’m tall when I’m young, and I’m short when I’m old. What am I?", answer: "candle", letter: "This is the second letter. Replace it later." },
+        { date: "6/6/2026", riddle: "what do you call the feeling you give me? (hint: its what this button is named 💕)", answer: "rahat", type: "cloud-scenery" },
         { date: "Day 3 (Placeholder)", riddle: "What month of the year has 28 days?", answer: "all of them", letter: "This is the third letter. Replace it later." },
         { date: "Day 4 (Placeholder)", riddle: "What is full of holes but still holds water?", answer: "sponge", letter: "This is the fourth letter. Replace it later." },
         { date: "Day 5 (Placeholder)", riddle: "What question can you never answer yes to?", answer: "are you asleep", letter: "This is the fifth and final letter. Replace it later." }
@@ -568,6 +611,7 @@ i always am all yours`
         });
 
         closeRahat.addEventListener('click', () => {
+            stopCloudTrack();
             gsap.to(rahatModal, { opacity: 0, duration: 0.5, onComplete: () => rahatModal.classList.add('hidden') });
         });
 
@@ -582,6 +626,8 @@ i always am all yours`
         function showDatesScreen() {
             riddleScreen.classList.add('hidden');
             letterScreen.classList.add('hidden');
+            const csScreen = document.getElementById('cloud-scenery-screen');
+            if (csScreen) { csScreen.classList.add('hidden'); stopCloudTrack(); }
             datesScreen.classList.remove('hidden');
             gsap.fromTo(datesScreen, { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.5 });
         }
@@ -613,7 +659,11 @@ i always am all yours`
             const userAns = riddleAnswer.value.trim().toLowerCase();
             
             if (userAns === data.answer.toLowerCase()) {
-                openLetter(data.letter);
+                if (data.type === 'cloud-scenery') {
+                    openCloudScenery();
+                } else {
+                    openLetter(data.letter);
+                }
             } else {
                 riddleError.style.opacity = '1';
                 gsap.fromTo(riddleAnswer, { x: -5 }, { x: 5, duration: 0.1, repeat: 3, yoyo: true });
@@ -629,6 +679,109 @@ i always am all yours`
                 // Typing effect
                 typeEffect(letterTextContainer, text, 40);
             }});
+        }
+
+        // ===== CLOUD SCENERY FEATURE =====
+        const cloudMessages = [
+            "everytime I talk to uh in nights or evening jab hum vc par baat kr rhe ho ya m under the blanket while talking to uh this song plays on loops in my head",
+            "uk na m in love with giving uh hickeys hehe u already know this track always reminds me of giving uh more hickeys and your expressions while I give em to uh your expressions when uh see all of em together also the stuggle to hide them your craving to get em more your excitement to see em and the sadness of em healing I just love everything about it and uh and I hope abse this track reminds uh all of it too",
+            "uk this one just tells if I had a power to be anything for uh basically shape shifting id be all of these for uh and just express my love being all of em",
+            "yeh gana we both love it and itne hi time tak I wanna be with uh and jitna yeh gana bata raha haina use kahi jyada main tumhara hoke rehna chahta hu",
+            "hehe I told na I wanna be all yours isiliye ek gana dedicated to how badly I wanna be yours and how I wanna stay yours",
+            "no matter wht I could never stop crushing on uh and its the feeling which never left me and it wont leave me no matter how close we get how comfortable we get I always have this feeling of crushing on uh id surely love uh deeper more but wont stop loving the way I did in starting ud always be that special to me sweetie I really really love uh the mosttttt pippooooooo I love uh forever my babyyy my jaaan my nubbu my sweetie my honey my wifey my everything"
+        ];
+
+        function openCloudScenery() {
+            riddleScreen.classList.add('hidden');
+            datesScreen.classList.add('hidden');
+
+            const cloudScreen = document.getElementById('cloud-scenery-screen');
+            cloudScreen.classList.remove('hidden');
+            gsap.fromTo(cloudScreen, { opacity: 0 }, { opacity: 1, duration: 1.2 });
+
+            // Generate stars once
+            const starsContainer = document.getElementById('cloud-stars-container');
+            if (starsContainer && starsContainer.children.length === 0) {
+                generateStars(starsContainer, 90);
+            }
+
+            // Initialize cloud interactions once
+            if (!cloudScreen.dataset.initialized) {
+                cloudScreen.dataset.initialized = 'true';
+                initCloudInteractions();
+                startShootingStars(cloudScreen);
+            }
+        }
+
+        function generateStars(container, count) {
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.className = 'sky-star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 75 + '%';
+                star.style.setProperty('--twinkle-duration', (Math.random() * 3 + 2) + 's');
+                star.style.animationDelay = Math.random() * 5 + 's';
+                const size = Math.random() * 2.5 + 0.5;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                container.appendChild(star);
+            }
+        }
+
+        function startShootingStars(container) {
+            function spawnStar() {
+                const star = document.createElement('div');
+                star.className = 'shooting-star';
+                star.style.top = Math.random() * 40 + '%';
+                star.style.left = (Math.random() * 50 + 40) + '%';
+                container.appendChild(star);
+                setTimeout(() => star.remove(), 1600);
+            }
+            setInterval(() => {
+                if (!container.classList.contains('hidden')) {
+                    spawnStar();
+                }
+            }, 4000 + Math.random() * 6000);
+        }
+
+        function initCloudInteractions() {
+            const clouds = document.querySelectorAll('.floating-cloud');
+            const overlay = document.getElementById('cloud-msg-overlay');
+            const msgText = document.getElementById('cloud-msg-text');
+            const closeMsg = document.getElementById('close-cloud-msg');
+            const closeScenery = document.getElementById('close-cloud-scenery');
+
+            clouds.forEach(cloud => {
+                cloud.addEventListener('click', () => {
+                    const idx = parseInt(cloud.dataset.cloudIdx);
+                    msgText.textContent = cloudMessages[idx];
+                    overlay.classList.add('active');
+                    gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+                    gsap.fromTo('#cloud-msg-box', { scale: 0.8, y: 20 }, { scale: 1, y: 0, duration: 0.6, ease: 'back.out(1.7)' });
+                    playCloudTrack(idx);
+                });
+            });
+
+            function closeCloudMessage() {
+                stopCloudTrack();
+                gsap.to(overlay, { opacity: 0, duration: 0.4, onComplete: () => {
+                    overlay.classList.remove('active');
+                }});
+            }
+
+            closeMsg.addEventListener('click', closeCloudMessage);
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeCloudMessage();
+            });
+
+            closeScenery.addEventListener('click', () => {
+                stopCloudTrack();
+                const cloudScreen = document.getElementById('cloud-scenery-screen');
+                gsap.to(cloudScreen, { opacity: 0, duration: 0.5, onComplete: () => {
+                    cloudScreen.classList.add('hidden');
+                    showDatesScreen();
+                }});
+            });
         }
     }
 });

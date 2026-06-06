@@ -216,4 +216,330 @@ body::after {
 
 .text-pink-200 { color: #ffb6c1; }
 .text-pink-300 { color: #ff9fb4; }
-.text-red-400 { color: #ff8787; }
+.text-red-400 { color: #ff8787; }
+
+/* ===== CLOUD SCENERY ===== */
+#cloud-scenery-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    overflow: hidden;
+    background: linear-gradient(180deg, #070B34 0%, #141852 25%, #2B1055 50%, #1A0A3E 75%, #0B0D2E 100%);
+}
+
+/* Hide vignette when cloud scenery is open — it darkens the edges too much */
+body:has(#cloud-scenery-screen:not(.hidden)) #rahat-modal {
+    /* Raise modal above vignette */
+}
+#cloud-scenery-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+}
+
+.cloud-sky-moon {
+    position: absolute;
+    top: 6%;
+    right: 10%;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #FFF9C4 0%, #FFE082 30%, rgba(255,224,130,0.3) 60%, transparent 70%);
+    box-shadow:
+        0 0 40px rgba(255, 249, 196, 0.5),
+        0 0 100px rgba(255, 249, 196, 0.2),
+        0 0 160px rgba(255, 249, 196, 0.08);
+    animation: moonGlow 6s ease-in-out infinite alternate;
+}
+
+@keyframes moonGlow {
+    0% { box-shadow: 0 0 40px rgba(255,249,196,0.5), 0 0 100px rgba(255,249,196,0.2); }
+    100% { box-shadow: 0 0 60px rgba(255,249,196,0.7), 0 0 130px rgba(255,249,196,0.3); }
+}
+
+#cloud-stars-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.sky-star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--twinkle-duration, 3s) ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.1; transform: scale(0.6); }
+    100% { opacity: 1; transform: scale(1.3); }
+}
+
+/* Cloud Shapes */
+.floating-cloud {
+    position: absolute;
+    cursor: pointer;
+    transition: filter 0.4s ease, transform 0.3s ease;
+    z-index: 2;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.floating-cloud:hover,
+.floating-cloud:active {
+    filter: brightness(1.4) drop-shadow(0 0 30px rgba(255,255,255,0.5));
+    transform: scale(1.1) !important;
+}
+
+.cloud-body {
+    position: relative;
+    background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(220,230,255,0.55) 100%);
+    border-radius: 100px;
+    filter: drop-shadow(0 8px 20px rgba(150,170,255,0.15));
+}
+
+.cloud-body::before,
+.cloud-body::after {
+    content: '';
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
+}
+
+/* Small clouds */
+.cloud-sm .cloud-body { width: 120px; height: 40px; }
+.cloud-sm .cloud-body::before { width: 60px; height: 50px; top: -25px; left: 20px; }
+.cloud-sm .cloud-body::after { width: 45px; height: 38px; top: -18px; right: 18px; }
+
+/* Medium clouds */
+.cloud-md .cloud-body { width: 180px; height: 55px; }
+.cloud-md .cloud-body::before { width: 85px; height: 70px; top: -35px; left: 30px; }
+.cloud-md .cloud-body::after { width: 65px; height: 55px; top: -25px; right: 25px; }
+
+/* Large clouds */
+.cloud-lg .cloud-body { width: 240px; height: 70px; }
+.cloud-lg .cloud-body::before { width: 110px; height: 90px; top: -45px; left: 40px; }
+.cloud-lg .cloud-body::after { width: 85px; height: 70px; top: -35px; right: 35px; }
+
+/* Cloud tap hint label */
+.cloud-tap-hint {
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.25);
+    white-space: nowrap;
+    letter-spacing: 0.1em;
+    font-family: 'Montserrat', sans-serif;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.floating-cloud:hover .cloud-tap-hint { opacity: 1; }
+
+/* Float animations — six unique paths */
+@keyframes floatCloud1 {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(30px, -15px); }
+    50% { transform: translate(55px, 5px); }
+    75% { transform: translate(18px, -8px); }
+}
+@keyframes floatCloud2 {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(-40px, 12px); }
+    66% { transform: translate(-12px, -14px); }
+}
+@keyframes floatCloud3 {
+    0%, 100% { transform: translate(0, 0); }
+    20% { transform: translate(20px, -22px); }
+    50% { transform: translate(-12px, 8px); }
+    80% { transform: translate(15px, -6px); }
+}
+@keyframes floatCloud4 {
+    0%, 100% { transform: translate(0, 0); }
+    30% { transform: translate(-28px, -12px); }
+    60% { transform: translate(22px, 16px); }
+}
+@keyframes floatCloud5 {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(45px, -10px); }
+    75% { transform: translate(-18px, 14px); }
+}
+@keyframes floatCloud6 {
+    0%, 100% { transform: translate(0, 0); }
+    40% { transform: translate(-22px, -18px); }
+    70% { transform: translate(28px, 10px); }
+}
+
+.cloud-float-1 { animation: floatCloud1 20s ease-in-out infinite; }
+.cloud-float-2 { animation: floatCloud2 26s ease-in-out infinite; }
+.cloud-float-3 { animation: floatCloud3 18s ease-in-out infinite; }
+.cloud-float-4 { animation: floatCloud4 23s ease-in-out infinite; }
+.cloud-float-5 { animation: floatCloud5 28s ease-in-out infinite; }
+.cloud-float-6 { animation: floatCloud6 24s ease-in-out infinite; }
+
+/* Cloud message overlay */
+#cloud-msg-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    background: rgba(5, 5, 30, 0.65);
+    backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+#cloud-msg-overlay.active {
+    display: flex;
+}
+
+#cloud-msg-box {
+    background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(180,200,255,0.04));
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    backdrop-filter: blur(24px);
+    position: relative;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+#cloud-msg-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem;
+    font-style: italic;
+    color: #fff;
+    line-height: 1.9;
+    text-shadow: 0 0 10px rgba(255,255,255,0.15);
+    min-height: 2em;
+    padding: 0.5rem 0;
+}
+
+#cloud-msg-box .cloud-audio-vis {
+    display: flex;
+    gap: 3px;
+    align-items: flex-end;
+    justify-content: center;
+    height: 18px;
+    margin-top: 1.5rem;
+    opacity: 0.4;
+}
+
+#cloud-msg-box .cloud-audio-vis span {
+    width: 3px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 2px;
+    animation: cloudAudioBar 0.6s ease-in-out infinite alternate;
+}
+#cloud-msg-box .cloud-audio-vis span:nth-child(1) { animation-delay: 0s; height: 6px; }
+#cloud-msg-box .cloud-audio-vis span:nth-child(2) { animation-delay: 0.15s; height: 10px; }
+#cloud-msg-box .cloud-audio-vis span:nth-child(3) { animation-delay: 0.3s; height: 14px; }
+#cloud-msg-box .cloud-audio-vis span:nth-child(4) { animation-delay: 0.15s; height: 10px; }
+#cloud-msg-box .cloud-audio-vis span:nth-child(5) { animation-delay: 0s; height: 6px; }
+
+@keyframes cloudAudioBar {
+    0% { transform: scaleY(0.4); }
+    100% { transform: scaleY(1.6); }
+}
+
+#close-cloud-msg {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 1.5rem;
+    color: rgba(255,255,255,0.3);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s;
+    line-height: 1;
+}
+#close-cloud-msg:hover { color: white; }
+
+/* Scenery hint text */
+.cloud-hint {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.2em;
+    animation: hintPulse 4s ease-in-out infinite;
+    z-index: 3;
+    white-space: nowrap;
+}
+
+@keyframes hintPulse {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.6; }
+}
+
+#close-cloud-scenery {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    z-index: 30;
+    font-size: 2rem;
+    color: rgba(255,255,255,0.3);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.2s;
+    line-height: 1;
+}
+#close-cloud-scenery:hover { color: white; transform: scale(1.15); }
+
+/* Shooting star */
+.shooting-star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 6px 2px rgba(255,255,255,0.6);
+    animation: shootingStar 1.5s linear forwards;
+    z-index: 1;
+}
+.shooting-star::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to left, rgba(255,255,255,0.6), transparent);
+    transform-origin: right;
+}
+
+@keyframes shootingStar {
+    0% { transform: translate(0, 0) rotate(-35deg); opacity: 1; }
+    100% { transform: translate(-250px, 180px) rotate(-35deg); opacity: 0; }
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+    .cloud-lg .cloud-body { width: 150px; height: 46px; }
+    .cloud-lg .cloud-body::before { width: 70px; height: 58px; top: -29px; left: 26px; }
+    .cloud-lg .cloud-body::after { width: 55px; height: 46px; top: -21px; right: 22px; }
+
+    .cloud-md .cloud-body { width: 125px; height: 38px; }
+    .cloud-md .cloud-body::before { width: 58px; height: 48px; top: -24px; left: 20px; }
+    .cloud-md .cloud-body::after { width: 44px; height: 36px; top: -16px; right: 16px; }
+
+    .cloud-sm .cloud-body { width: 85px; height: 28px; }
+    .cloud-sm .cloud-body::before { width: 42px; height: 35px; top: -17px; left: 14px; }
+    .cloud-sm .cloud-body::after { width: 32px; height: 27px; top: -12px; right: 12px; }
+
+    .cloud-sky-moon { width: 50px; height: 50px; top: 4%; right: 8%; }
+    #cloud-msg-text { font-size: 1.15rem; }
+    #cloud-msg-box { padding: 1.8rem 1.2rem; }
+    .cloud-hint { font-size: 0.75rem; bottom: 5%; }
+}

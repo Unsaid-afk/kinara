@@ -221,6 +221,63 @@
                     <p id="letter-text-container" class="text-xl md:text-2xl font-serif italic text-gray-200 leading-relaxed"></p>
                 </div>
             </div>
+
+            <!-- Cloud Scenery Screen (Day 2: 6/6/2026) -->
+            <div id="cloud-scenery-screen" class="hidden">
+                <div class="cloud-sky-moon"></div>
+                <div id="cloud-stars-container"></div>
+
+                <p class="cloud-hint">tap a cloud to discover a hidden message ☁️</p>
+                <button id="close-cloud-scenery">&times;</button>
+
+                <!-- Cloud 1: top-left, small -->
+                <div class="floating-cloud cloud-sm cloud-float-1" data-cloud-idx="0" style="top: 15%; left: 8%;">
+                    <div class="cloud-body"></div>
+                    <span class="cloud-tap-hint">1</span>
+                </div>
+
+                <!-- Cloud 2: top-center-right, medium -->
+                <div class="floating-cloud cloud-md cloud-float-2" data-cloud-idx="1" style="top: 10%; left: 42%;">
+                    <div class="cloud-body"></div>
+                    <span class="cloud-tap-hint">2</span>
+                </div>
+
+                <!-- Cloud 3: mid-left, large -->
+                <div class="floating-cloud cloud-lg cloud-float-3" data-cloud-idx="2" style="top: 32%; left: 5%;">
+                    <div class="cloud-body"></div>
+                    <span class="cloud-tap-hint">3</span>
+                </div>
+
+                <!-- Cloud 4: mid-right, medium -->
+                <div class="floating-cloud cloud-md cloud-float-4" data-cloud-idx="3" style="top: 38%; right: 6%;">
+                    <div class="cloud-body"></div>
+                    <span class="cloud-tap-hint">4</span>
+                </div>
+
+                <!-- Cloud 5: lower-center-left, large -->
+                <div class="floating-cloud cloud-lg cloud-float-5" data-cloud-idx="4" style="top: 56%; left: 25%;">
+                    <div class="cloud-body"></div>
+                    <span class="cloud-tap-hint">5</span>
+                </div>
+
+                <!-- Cloud 6: lower-right, small -->
+                <div class="floating-cloud cloud-sm cloud-float-6" data-cloud-idx="5" style="top: 68%; right: 14%;">
+                    <div class="cloud-body"></div>
+                    <span class="cloud-tap-hint">6</span>
+                </div>
+
+                <!-- Message Overlay -->
+                <div id="cloud-msg-overlay">
+                    <div id="cloud-msg-box">
+                        <button id="close-cloud-msg">&times;</button>
+                        <p id="cloud-msg-text"></p>
+                        <div class="cloud-audio-vis">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- Background Audio (Local & Fallback) -->
