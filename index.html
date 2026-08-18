@@ -14,6 +14,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Cormorant+Garamond:ital,wght@1,400;1,600&display=swap"
         rel="stylesheet">
+    <!-- Arcade Font for 4-Month Quest -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <!-- Local Scripts (Fixed for Tracking Prevention) -->
     <script src="gsap.min.js"></script>
     <script src="ScrollTrigger.min.js"></script>
@@ -189,7 +191,8 @@
 
         <!-- RAHAT Feature -->
         <div id="rahat-btn-container" style="position: fixed !important; bottom: 30px !important; right: 30px !important; z-index: 9999 !important; opacity: 0; pointer-events: none; transition: opacity 1s ease, transform 0.3s ease;">
-            <button id="rahat-btn" class="glass" style="padding: 15px 30px; font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; letter-spacing: 0.1em; color: #ffb6c1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; cursor: pointer; box-shadow: 0 0 20px rgba(255,105,180,0.3);">
+            <div id="unread-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center animate-bounce shadow-[0_0_10px_rgba(255,0,0,0.8)] z-10">1</div>
+            <button id="rahat-btn" class="glass" style="position: relative; padding: 15px 30px; font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; letter-spacing: 0.1em; color: #ffb6c1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; cursor: pointer; box-shadow: 0 0 20px rgba(255,105,180,0.3);">
                 RAHAT
             </button>
         </div>
@@ -219,6 +222,57 @@
                 <button id="close-letter" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
                 <div class="letter-content min-h-[300px]">
                     <p id="letter-text-container" class="text-xl md:text-2xl font-serif italic text-gray-200 leading-relaxed"></p>
+                </div>
+            </div>
+
+            <!-- Arcade Game Screen (4-Month Quest) -->
+            <div id="arcade-game-screen" class="hidden w-full max-w-3xl relative p-4 flex flex-col items-center justify-center">
+                <button id="close-arcade-game" class="absolute top-0 right-4 text-gray-400 hover:text-white text-3xl z-50">&times;</button>
+                
+                <div id="game-container" class="w-full border-4 border-[#00ffcc] rounded-xl p-6 bg-black shadow-[0_0_20px_#00ffcc,inset_0_0_20px_#00ffcc] relative z-20" style="font-family: 'Press Start 2P', monospace; color: #00ffcc;">
+                    <!-- Arcade Status Bar -->
+                    <header id="status-bar" class="flex justify-between border-b-2 border-[#00ffcc] pb-4 mb-8 text-sm" style="text-shadow: 2px 2px #000;">
+                        <div class="status-left">LEVEL: 4 MONTHS</div>
+                        <div class="status-right">
+                            <span class="heart blink text-[#ff3366]">❤️</span>
+                            <span class="heart blink text-[#ff3366]" style="animation-delay: 0.2s">❤️</span>
+                            <span class="heart blink text-[#ff3366]" style="animation-delay: 0.4s">❤️</span>
+                            <span class="heart blink text-[#ff3366]" style="animation-delay: 0.6s">❤️</span>
+                        </div>
+                    </header>
+
+                    <!-- Main Narrative Area -->
+                    <main id="game-screen" class="flex flex-col items-center min-h-[300px]">
+                        <h1 id="chapter-title" class="text-xl text-[#ff00ff] mb-6 text-center leading-relaxed" style="text-shadow: 0 0 10px #ff00ff;">PRESS START</h1>
+                        
+                        <!-- Visual Novel Scene Window -->
+                        <div id="scene-window" class="scene-window">
+                            <!-- Background Image -->
+                            <div id="scene-bg" class="scene-bg"></div>
+                            
+                            <!-- Characters Container -->
+                            <div id="scene-characters" class="scene-characters">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                        <div id="text-box" class="w-full min-h-[120px] text-xs leading-[2] mb-10 relative p-4 border border-dashed border-[#00ffcc] bg-[#00ffcc]/5">
+                            <p id="story-text" class="inline">Are you ready to relive our journey?</p>
+                            <div class="cursor blink inline-block w-2.5 bg-[#00ffcc] text-transparent">_</div>
+                        </div>
+
+                        <div id="choices-box" class="flex flex-col gap-4 w-full items-center opacity-0 pointer-events-none transition-opacity duration-500">
+                            <button id="choice-btn" class="arcade-btn bg-transparent text-[#00ffcc] border-2 border-[#00ffcc] py-4 px-5 text-xs uppercase w-[80%] text-center cursor-pointer hover:bg-[#00ffcc] hover:text-black hover:shadow-[0_0_15px_#00ffcc] transition-all">[ START GAME ]</button>
+                        </div>
+                    </main>
+                </div>
+
+                <!-- Celebration Screen -->
+                <div id="celebration-screen" class="hidden absolute inset-0 bg-black/95 z-50 flex flex-col justify-center items-center text-center p-6 rounded-xl">
+                    <h2 class="rainbow-text text-3xl mb-5" style="font-family: 'Press Start 2P', monospace;">QUEST COMPLETE</h2>
+                    <div class="hearts-explosion text-4xl my-5 animate-pulse">❤️❤️❤️❤️❤️❤️</div>
+                    <p style="font-family: 'Press Start 2P', monospace; color: #00ffcc;" class="text-xs leading-[2]">You unlocked:<br><br><span class="highlight text-[#ff00ff] text-sm" style="text-shadow: 0 0 10px #ff00ff;">INFINITE LEVEL OF HAPPINESS ✨</span></p>
+                    <button id="replay-btn" class="arcade-btn bg-transparent text-[#00ffcc] border-2 border-[#00ffcc] py-4 px-5 text-xs uppercase mt-8 cursor-pointer hover:bg-[#00ffcc] hover:text-black hover:shadow-[0_0_15px_#00ffcc] transition-all" style="font-family: 'Press Start 2P', monospace;">[ REPLAY LEVEL ]</button>
                 </div>
             </div>
 

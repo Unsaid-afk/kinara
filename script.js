@@ -554,7 +554,7 @@ i love uh the mosssssssssssssssssssssssstttttttttttttttt and forever my loveeeee
 i always am all yours` 
         },
         { date: "6/6/2026", riddle: "what do you call the feeling you give me? (hint: its what this button is named 💕)", answer: "rahat", type: "cloud-scenery" },
-        { date: "Day 3 (Placeholder)", riddle: "What month of the year has 28 days?", answer: "all of them", letter: "This is the third letter. Replace it later." },
+        { date: "Unread Letter 💌", type: "arcade-game" },
         { date: "Day 4 (Placeholder)", riddle: "What is full of holes but still holds water?", answer: "sponge", letter: "This is the fourth letter. Replace it later." },
         { date: "Day 5 (Placeholder)", riddle: "What question can you never answer yes to?", answer: "are you asleep", letter: "This is the fifth and final letter. Replace it later." }
     ];
@@ -597,14 +597,23 @@ i always am all yours`
             const btn = document.createElement('button');
             btn.className = "glass px-6 py-8 text-xl font-serif text-pink-200 hover:text-white transition-all transform hover:scale-105 flex-1 min-w-[150px]";
             btn.innerHTML = `<span class="block text-3xl mb-2">💌</span>${data.date}`;
+            if (data.type === 'arcade-game') {
+                btn.classList.add('animate-pulse', 'border', 'border-red-500/50', 'shadow-[0_0_15px_rgba(255,0,0,0.5)]');
+            }
             btn.addEventListener('click', () => {
                 currentDayIndex = index;
-                openRiddle(index);
+                if (data.type === 'arcade-game') {
+                    openArcadeGame();
+                } else {
+                    openRiddle(index);
+                }
             });
             datesGrid.appendChild(btn);
         });
 
         rahatBtn.addEventListener('click', () => {
+            const badge = document.getElementById('unread-badge');
+            if (badge) badge.style.display = 'none'; // Hide badge on first open
             rahatModal.classList.remove('hidden');
             gsap.fromTo(rahatModal, { opacity: 0 }, { opacity: 1, duration: 0.5 });
             showDatesScreen();
@@ -626,6 +635,8 @@ i always am all yours`
         function showDatesScreen() {
             riddleScreen.classList.add('hidden');
             letterScreen.classList.add('hidden');
+            const arcadeScreen = document.getElementById('arcade-game-screen');
+            if (arcadeScreen) arcadeScreen.classList.add('hidden');
             const csScreen = document.getElementById('cloud-scenery-screen');
             if (csScreen) { csScreen.classList.add('hidden'); stopCloudTrack(); }
             datesScreen.classList.remove('hidden');
@@ -680,6 +691,373 @@ i always am all yours`
                 typeEffect(letterTextContainer, text, 40);
             }});
         }
+
+        // ===== 4-MONTH QUEST ARCADE GAME =====
+        const questStoryData = [
+            {
+                chapter: "START",
+                title: "PRESS START",
+                text: "System initialized...\nLoading memories...\nAre you ready to relive the 4-month journey?",
+                effect: "default",
+                bgImage: "assets/bg_campus.jpg",
+                anim: "none",
+                choices: [
+                    { text: "[ INITIALIZE QUEST ]", isCorrect: true }
+                ]
+            },
+            {
+                chapter: "Chapter 1",
+                title: "THE ORIGIN",
+                text: "Setting: College campus. You are a 3rd-year senior; she is a 1st-year student who just texted you with a random question.\n\nSparks fly through casual text messages ✨. Peers and classmates immediately start shipping you two, but you both brush it off as campus gossip.",
+                effect: "default",
+                bgImage: "assets/bg_campus.jpg",
+                anim: "slideIn",
+                choices: [
+                    { text: "[ \"Who gave you my number?\" ]", isCorrect: false, response: "Ouch. Too cold! She leaves you on read. Try again. 🥶" },
+                    { text: "[ REPLY CASUALLY & SPARKS FLY ]", isCorrect: true }
+                ]
+            },
+            {
+                chapter: "Chapter 2",
+                title: "9 MONTHS OF FRIENDSHIP",
+                text: "Setting: Campus life.\n\nDespite the gossip, you both became incredibly close friends. You spent countless hours talking, laughing, and constantly joking about how you managed to survive 9 whole months of friendship together without driving each other completely crazy.",
+                effect: "default",
+                bgImage: "assets/bg_campus.jpg",
+                anim: "slideIn",
+                choices: [
+                    { text: "[ RUIN THE FRIENDSHIP IMMEDIATELY ]", isCorrect: false, response: "Too soon! You have to build the foundation first. Try again. 🧱" },
+                    { text: "[ JOKE & BECOME BEST FRIENDS ]", isCorrect: true }
+                ]
+            },
+            {
+                chapter: "Chapter 3",
+                title: "THE 22KM NIGHT TREK",
+                text: "Setting: A grueling 22-kilometer night trek. An extra spot opened up, and she agreed to join the group 🥾.\n\nYou make sure she doesn't feel lonely by sticking close. On the bus ride there, the friend group breaks into a hype dance in the aisle 🚌. You step away briefly for the dancing, but your focus is entirely on her.",
+                effect: "night",
+                bgImage: "assets/bg_trek.jpg",
+                anim: "walk",
+                choices: [
+                    { text: "[ IGNORE HER & DANCE CRAZY ]", isCorrect: false, response: "She gets bored and falls asleep. You missed your chance! 😂" },
+                    { text: "[ WALK BY HER SIDE ]", isCorrect: true }
+                ]
+            },
+            {
+                chapter: "Chapter 4",
+                title: "THE WATER BOTTLE CONFESSION",
+                text: "Setting: Deep into the 22km night trek under the stars 🌙.\n\nShe hands you her water bottle to carry. You play it cool, look at her with a mischievous smile, and drop the line:\n\n\"It's my responsibility to take care of the bottle, I can't let it get harmed.\"\n\nRight as she processes it, you look straight into her eyes and say: \"I'm not talking about the bottle.\" Her jaw drops in shock.",
+                effect: "night",
+                bgImage: "assets/bg_trek.jpg",
+                anim: "shock",
+                choices: [
+                    { text: "[ DROP THE BOTTLE ]", isCorrect: false, response: "Clumsy! She laughs, but the moment is ruined. Pick it up! 🍼" },
+                    { text: "[ DROP THE CONFESSION ]", isCorrect: true }
+                ]
+            },
+            {
+                chapter: "Chapter 5",
+                title: "THE SHOULDER LEAN",
+                text: "Setting: The exhausting bus ride home after completing the 22km trek.\n\nExhaustion takes over. You gather all your courage and gently guide her head onto your shoulder. She is too tired to protest and falls asleep instantly. Being a tall guy, you freeze completely so as not to wake her up, gently patting her head and brushing stray hair away from her face.",
+                effect: "bus",
+                bgImage: "assets/bg_bus.jpg",
+                anim: "lean",
+                choices: [
+                    { text: "[ WAKE HER UP FOR SNACKS ]", isCorrect: false, response: "How could you wake the sleeping princess?! Try again. 😠" },
+                    { text: "[ FREEZE & PROTECT HER SLEEP ]", isCorrect: true }
+                ]
+            },
+            {
+                chapter: "Chapter 6",
+                title: "LATE-NIGHT VCs & DANCING CLOSER",
+                text: "Setting: Post-trek reality.\n\nYou text her everything you're feeling. She respects your honesty and wants to get to know you deeper. Soon, you are spending entire days and nights talking on video calls (VC). You even pair up for a college dance, growing inseparable through every rehearsal.",
+                effect: "default",
+                bgImage: "assets/bg_vc.jpg",
+                anim: "dance",
+                choices: [
+                    { text: "[ GHOST HER ]", isCorrect: false, response: "Really? After all that? Absolute zero game. Try again. 💀" },
+                    { text: "[ HOLD HER CLOSE ON THE DANCE FLOOR ]", isCorrect: true }
+                ]
+            },
+            {
+                chapter: "Chapter 7",
+                title: "THE MISUNDERSTANDING",
+                text: "Setting: A gloomy evening 🌧️.\n\nRight before everything fell into place, accidental problems and misunderstandings occurred between you two. But true love always finds a way, and despite the arguments, neither of you were willing to give up on what you had built.",
+                effect: "default",
+                bgImage: "assets/bg_rain.jpg",
+                anim: "rain_anim",
+                choices: [
+                    { text: "[ GIVE UP AND WALK AWAY ]", isCorrect: false, response: "True love doesn't quit when things get tough. Try again. 💔" },
+                    { text: "[ HOLD ON TIGHTER ]", isCorrect: true }
+                ]
+            },
+            {
+                chapter: "Chapter 8",
+                title: "THE KINARA PROPOSAL",
+                text: "Setting: Her house.\n\nYou show up at her house with tears in your eyes, using a custom website you built called Kinara to propose to her. Through the tears and overwhelming emotion, without a second thought, she says yes ❤️.\n\n(Date: 19th April 2026)",
+                effect: "proposal",
+                bgImage: "assets/bg_proposal.jpg",
+                anim: "propose",
+                choices: [
+                    { text: "[ UNLOCK 4-MONTH ANNIVERSARY ]", isCorrect: true }
+                ]
+            }
+        ];
+
+        let questLevel = 0;
+        let questTyping = false;
+        let questInterval;
+
+        function applyQuestEffect(effect) {
+            const container = document.getElementById("game-container");
+            container.className = "w-full border-4 border-[#00ffcc] rounded-xl p-6 bg-black shadow-[0_0_20px_#00ffcc,inset_0_0_20px_#00ffcc] relative z-20 quest-bg-default";
+            
+            if (effect === "night") container.classList.add("quest-bg-night");
+            if (effect === "bus") container.classList.add("quest-bg-bus");
+            if (effect === "proposal") container.classList.add("quest-bg-proposal");
+        }
+
+        function updateSceneView(data) {
+            const sceneBg = document.getElementById("scene-bg");
+            const charContainer = document.getElementById("scene-characters");
+            
+            // Set Background
+            if (data.bgImage) {
+                sceneBg.style.backgroundImage = `url('${data.bgImage}')`;
+                sceneBg.style.opacity = '1';
+                gsap.fromTo(sceneBg, { scale: 1.05 }, { scale: 1, duration: 2, ease: "power2.out" });
+            } else {
+                sceneBg.style.opacity = '0';
+            }
+
+            // Setup Characters if not START
+            if (data.chapter === "START") {
+                charContainer.innerHTML = '';
+                return;
+            }
+
+            // If characters don't exist yet, create them
+            if (!document.getElementById("char-boy")) {
+                charContainer.innerHTML = `
+                    <div id="char-boy" class="character-sprite char-boy" style="transform: translateX(-100px); opacity: 0;">
+                        <div class="emotion-bubble" id="bubble-boy"></div>
+                        👦🏻
+                    </div>
+                    <div id="char-girl" class="character-sprite char-girl" style="transform: translateX(100px); opacity: 0;">
+                        <div class="emotion-bubble" id="bubble-girl"></div>
+                        👧🏻
+                    </div>
+                `;
+            }
+
+            const boy = document.getElementById("char-boy");
+            const girl = document.getElementById("char-girl");
+            const bubbleBoy = document.getElementById("bubble-boy");
+            const bubbleGirl = document.getElementById("bubble-girl");
+
+            // Reset emotions
+            bubbleBoy.classList.remove("active");
+            bubbleGirl.classList.remove("active");
+            gsap.killTweensOf([boy, girl]);
+
+            // Animations based on scene
+            switch (data.anim) {
+                case "slideIn":
+                    gsap.to(boy, { x: 40, opacity: 1, duration: 1, ease: "back.out(1.2)" });
+                    gsap.to(girl, { x: -40, opacity: 1, duration: 1, ease: "back.out(1.2)" });
+                    setTimeout(() => {
+                        bubbleBoy.textContent = "💬";
+                        bubbleBoy.classList.add("active");
+                    }, 1500);
+                    break;
+                case "walk":
+                    gsap.to(boy, { x: 50, y: -5, opacity: 1, yoyo: true, repeat: -1, duration: 0.5 });
+                    gsap.to(girl, { x: -30, y: -5, opacity: 1, yoyo: true, repeat: -1, duration: 0.5, delay: 0.2 });
+                    break;
+                case "shock":
+                    // Stop walking
+                    gsap.to([boy, girl], { y: 0, duration: 0.1 });
+                    gsap.to(boy, { x: 60, opacity: 1, duration: 0.5 });
+                    gsap.to(girl, { x: -40, opacity: 1, duration: 0.5 });
+                    
+                    setTimeout(() => {
+                        bubbleBoy.textContent = "😏";
+                        bubbleBoy.classList.add("active");
+                    }, 500);
+                    
+                    setTimeout(() => {
+                        bubbleGirl.textContent = "❗";
+                        bubbleGirl.classList.add("active");
+                        gsap.fromTo(girl, { y: 0 }, { y: -20, yoyo: true, repeat: 1, duration: 0.2 }); // jump in shock
+                    }, 2000);
+                    break;
+                case "lean":
+                    gsap.to(boy, { x: 80, y: 0, rotation: 0, opacity: 1, duration: 0.5 });
+                    gsap.to(girl, { x: -70, y: 0, opacity: 1, duration: 0.5, onComplete: () => {
+                        // Girl leans on shoulder
+                        gsap.to(girl, { rotation: -25, x: -60, duration: 1, ease: "power2.inOut" });
+                        setTimeout(() => {
+                            bubbleBoy.textContent = "❤️";
+                            bubbleBoy.classList.add("active");
+                            bubbleGirl.textContent = "💤";
+                            bubbleGirl.classList.add("active");
+                        }, 1000);
+                    }});
+                    break;
+                case "dance":
+                    gsap.to(boy, { rotation: 0, x: 50, opacity: 1, duration: 0.5 });
+                    gsap.to(girl, { rotation: 0, x: -50, opacity: 1, duration: 0.5 });
+                    gsap.to(boy, { y: -30, rotation: 10, yoyo: true, repeat: -1, duration: 0.4 });
+                    gsap.to(girl, { y: -30, rotation: -10, yoyo: true, repeat: -1, duration: 0.4, delay: 0.2 });
+                    break;
+                case "rain_anim":
+                    gsap.to(boy, { x: 30, y: 0, rotation: 0, opacity: 1, duration: 1 });
+                    gsap.to(girl, { x: -30, y: 0, rotation: 0, opacity: 1, duration: 1 });
+                    setTimeout(() => {
+                        bubbleBoy.textContent = "🥺";
+                        bubbleBoy.classList.add("active");
+                        bubbleGirl.textContent = "🌧️";
+                        bubbleGirl.classList.add("active");
+                    }, 1000);
+                    break;
+                case "propose":
+                    gsap.killTweensOf([boy, girl]);
+                    gsap.to(boy, { x: 90, y: 0, rotation: 0, opacity: 1, duration: 1 });
+                    gsap.to(girl, { x: -90, y: 0, rotation: 0, opacity: 1, duration: 1 });
+                    setTimeout(() => {
+                        bubbleBoy.textContent = "💍";
+                        bubbleBoy.classList.add("active");
+                    }, 1000);
+                    setTimeout(() => {
+                        bubbleGirl.textContent = "❤️";
+                        bubbleGirl.classList.add("active");
+                        gsap.fromTo(girl, { y: 0 }, { y: -30, yoyo: true, repeat: 3, duration: 0.3 }); // Jump for joy
+                    }, 2500);
+                    break;
+            }
+        }
+
+        function typeQuestText(text, callback) {
+            questTyping = true;
+            const textEl = document.getElementById("story-text");
+            const choicesEl = document.getElementById("choices-box");
+            textEl.innerHTML = "";
+            choicesEl.classList.remove("opacity-100", "pointer-events-auto");
+            choicesEl.classList.add("opacity-0", "pointer-events-none");
+            
+            let i = 0;
+            const chars = text.split('');
+            
+            clearInterval(questInterval);
+            questInterval = setInterval(() => {
+                if (i < chars.length) {
+                    if (chars[i] === '\n') {
+                        textEl.innerHTML += "<br>";
+                    } else {
+                        textEl.innerHTML += chars[i];
+                    }
+                    i++;
+                } else {
+                    clearInterval(questInterval);
+                    questTyping = false;
+                    if (callback) callback();
+                }
+            }, 30);
+        }
+
+        function handleChoiceClick(choice, data) {
+            if (questTyping) {
+                // Instantly finish typing
+                clearInterval(questInterval);
+                document.getElementById("story-text").innerHTML = data.text.replace(/\n/g, "<br>");
+                questTyping = false;
+                const choicesEl = document.getElementById("choices-box");
+                choicesEl.classList.remove("opacity-0", "pointer-events-none");
+                choicesEl.classList.add("opacity-100", "pointer-events-auto");
+                return;
+            }
+
+            if (!choice.isCorrect) {
+                // Wrong choice logic
+                const container = document.getElementById("game-container");
+                container.classList.remove("shake-error");
+                void container.offsetWidth; // trigger reflow
+                container.classList.add("shake-error");
+                
+                document.getElementById("story-text").innerHTML = `<span class="text-red-500">${choice.response}</span><br><br>${data.text.replace(/\n/g, "<br>")}`;
+            } else {
+                // Correct choice logic
+                questLevel++;
+                loadQuestLevel(questLevel);
+            }
+        }
+
+        function renderChoices(data) {
+            const choicesEl = document.getElementById("choices-box");
+            choicesEl.innerHTML = ""; // Clear existing choices
+            
+            data.choices.forEach(choice => {
+                const btn = document.createElement("button");
+                btn.className = "arcade-btn bg-transparent text-[#00ffcc] border-2 border-[#00ffcc] py-4 px-5 text-xs uppercase w-[80%] text-center cursor-pointer hover:bg-[#00ffcc] hover:text-black hover:shadow-[0_0_15px_#00ffcc] transition-all";
+                btn.textContent = choice.text;
+                
+                btn.addEventListener("click", () => handleChoiceClick(choice, data));
+                choicesEl.appendChild(btn);
+            });
+        }
+
+        function loadQuestLevel(levelIndex) {
+            if (levelIndex >= questStoryData.length) {
+                document.getElementById("celebration-screen").classList.remove("hidden");
+                // Confetti explosion
+                if(typeof confetti !== 'undefined') {
+                    confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 }, colors: ['#ff00ff', '#00ffcc', '#ffffff'] });
+                }
+                return;
+            }
+            
+            const data = questStoryData[levelIndex];
+            document.getElementById("chapter-title").textContent = data.title;
+            
+            applyQuestEffect(data.effect);
+            updateSceneView(data);
+            renderChoices(data);
+            
+            // GSAP fade in text box
+            gsap.fromTo("#text-box", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5 });
+
+            typeQuestText(data.text, () => {
+                const choicesEl = document.getElementById("choices-box");
+                choicesEl.classList.remove("opacity-0", "pointer-events-none");
+                choicesEl.classList.add("opacity-100", "pointer-events-auto");
+            });
+        }
+
+        function openArcadeGame() {
+            datesScreen.classList.add('hidden');
+            const arcadeScreen = document.getElementById('arcade-game-screen');
+            arcadeScreen.classList.remove('hidden');
+            gsap.fromTo(arcadeScreen, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.2)" });
+            
+            questLevel = 0;
+            document.getElementById("celebration-screen").classList.add("hidden");
+            loadQuestLevel(questLevel);
+        }
+
+        const closeArcadeBtn = document.getElementById("close-arcade-game");
+        if(closeArcadeBtn) {
+            closeArcadeBtn.addEventListener("click", () => {
+                showDatesScreen();
+            });
+        }
+
+        const replayBtn = document.getElementById("replay-btn");
+        if (replayBtn) {
+            replayBtn.addEventListener("click", () => {
+                document.getElementById("celebration-screen").classList.add("hidden");
+                questLevel = 0;
+                loadQuestLevel(questLevel);
+            });
+        }
+        // =====================================
 
         // ===== CLOUD SCENERY FEATURE =====
         const cloudMessages = [
