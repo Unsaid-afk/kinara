@@ -232,7 +232,10 @@
                 <div id="game-container" class="w-full border-4 border-[#00ffcc] rounded-xl p-6 bg-black shadow-[0_0_20px_#00ffcc,inset_0_0_20px_#00ffcc] relative z-20" style="font-family: 'Press Start 2P', monospace; color: #00ffcc;">
                     <!-- Arcade Status Bar -->
                     <header id="status-bar" class="flex justify-between border-b-2 border-[#00ffcc] pb-4 mb-8 text-sm" style="text-shadow: 2px 2px #000;">
-                        <div class="status-left">LEVEL: 4 MONTHS</div>
+                        <div class="status-left flex items-center gap-4">
+                            LEVEL: 4 MONTHS
+                            <button id="music-toggle" class="text-[#ff00ff] hover:text-[#00ffcc] transition-colors cursor-pointer text-lg" title="Toggle Music">🔊</button>
+                        </div>
                         <div class="status-right">
                             <span class="heart blink text-[#ff3366]">❤️</span>
                             <span class="heart blink text-[#ff3366]" style="animation-delay: 0.2s">❤️</span>
@@ -240,6 +243,12 @@
                             <span class="heart blink text-[#ff3366]" style="animation-delay: 0.6s">❤️</span>
                         </div>
                     </header>
+
+                    <!-- Background Music -->
+                    <audio id="bgm-audio" loop preload="auto">
+                        <source src="assets/bgm.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
 
                     <!-- Main Narrative Area -->
                     <main id="game-screen" class="flex flex-col items-center min-h-[300px]">
@@ -272,8 +281,37 @@
                     <h2 class="rainbow-text text-3xl mb-5" style="font-family: 'Press Start 2P', monospace;">QUEST COMPLETE</h2>
                     <div class="hearts-explosion text-4xl my-5 animate-pulse">❤️❤️❤️❤️❤️❤️</div>
                     <p style="font-family: 'Press Start 2P', monospace; color: #00ffcc;" class="text-xs leading-[2]">You unlocked:<br><br><span class="highlight text-[#ff00ff] text-sm" style="text-shadow: 0 0 10px #ff00ff;">INFINITE LEVEL OF HAPPINESS ✨</span></p>
+                    
+                    <!-- Hopping Jar -->
+                    <div id="hopping-jar" class="relative text-8xl mt-12 cursor-pointer transition-transform hover:scale-110 animate-bounce group" title="Tap to open!">
+                        🫙
+                        <div class="absolute inset-0 flex items-center justify-center pt-4 opacity-90 group-hover:opacity-100 transition-opacity">
+                            <span class="text-3xl">🥺</span>
+                        </div>
+                        <span class="absolute -right-4 -top-2 text-4xl animate-pulse">✨</span>
+                    </div>
+                    <p class="text-[10px] text-gray-400 mt-2 font-sans italic">Tap the jar...</p>
+
                     <button id="replay-btn" class="arcade-btn bg-transparent text-[#00ffcc] border-2 border-[#00ffcc] py-4 px-5 text-xs uppercase mt-8 cursor-pointer hover:bg-[#00ffcc] hover:text-black hover:shadow-[0_0_15px_#00ffcc] transition-all" style="font-family: 'Press Start 2P', monospace;">[ REPLAY LEVEL ]</button>
                 </div>
+            </div>
+
+            <!-- Love Letter Overlay -->
+            <div id="love-letter-overlay" class="hidden fixed inset-0 z-[300] bg-black/90 backdrop-blur-sm flex flex-col justify-center items-center p-6">
+                <div class="bg-[#111] border border-[#ff00ff] rounded-xl p-8 max-w-md w-full relative shadow-[0_0_30px_#ff00ff]">
+                    <button id="close-letter-btn" class="absolute top-2 right-4 text-gray-400 hover:text-white text-2xl z-50">&times;</button>
+                    <h2 class="text-2xl font-serif italic text-[#ffb6c1] mb-6 text-center">My Dearest...</h2>
+                    <div class="font-serif italic text-gray-300 leading-relaxed space-y-4 text-sm max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+                        <p>Hey cutu tbh this was not at all my plan but tere pyaar aur tere pyaar me jhumne wale mere mann ko koi rok sakta hai kya . Jaan I have been sooo restless cuz i wanted to wish this anniversary to you . I want it to be soo special for uh but things don't let you be happy . Ab tak ive been behaving weird just cuz i was hiding all these for you and mujhe kuch chupana acha nhi lagta bhale hi woh teri Khushi teri bhalai ke liye ho i hate it i just feel i am doing something sooo wrong to you . i was really controlling myself in the morning jab main apke ghar aya ki main tumhe yeh kaise na dikhau i wanted to show it to uh but i wanted uh to be free enough to be able to kiss me and hug me after u read all these after you see whatever i made for you. ive been planning this sorry to make you feel i didn't plan anything haa i couldn't plan any outing cuz woh mere bass me nhi tha but yeh hai ive been planning to just let you know that i truly love you ive been planning to give you some peace and make you feel special through all these its not enough nearly not at all enough but jaaana i just want you to feel special on this day</p>
+                        <p>i am right now chatting with your mother so i again feel so good soo privileged (sapling mistake unsee plij) she is soo in love with you and i ardore that the way i adore uh</p>
+                        <p>you have no idea how beautiful</p>
+                        <p>my eyes are watering rn thinking the way she praises you the way we talking about you tujhe pata hai abhi i was about to tell you how pretty you are but ab we have been see pretty from inside so considerate i am so so proud of you like its beyond expressions my cutuuuu abhi apki mummy ne bola ki tu jiske ghar jaegi na shaadi karke uski chandi hi chandi hai she doesn't wanna send you anywhere i wont take you away from her we both couldn't stop but just consider how mature you are how helpful you are jaaana my emotions are beyond control i just feel abhi upar akar tumhe gale laga lu but its okay it can wait a bit so can i its tough but i real can wait thodu sa more for you my cutu pakoda my everything i love you sooooooooooo much jaaaaaan.</p>
+                        <p>abhi lemme talk to you mother more baaki ka tu mujhse khud hi sunn lena are haaa also i was baar baar leaning towards you cuz i was just adoring and seeing how cutu you are uh closing your eyes yoning mummy ke aate hi shorts theek karna baar baar pakle jhapkana pyaar se auntiji ko salute karna its just like a movie and main tujhe ghanton tak yuhi dekhta rhu is wht i wanna do</p>
+                        <p>cmon now spend some time with me ive been dying to do so cutuuuuuu</p>
+                        <p>btw tell me if u did like my planning ? out of 5 stars (in the form of kisses please ) also tell me if u find me an accessible boyfriend and bestfriend and apka pati id love to know .</p>
+                    </div>
+                </div>
+            </div>
             </div>
 
             <!-- Cloud Scenery Screen (Day 2: 6/6/2026) -->

@@ -1040,6 +1040,43 @@ i always am all yours`
             questLevel = 0;
             document.getElementById("celebration-screen").classList.add("hidden");
             loadQuestLevel(questLevel);
+
+            // Audio Logic
+            const mainAudio = document.getElementById("bg-audio");
+            if (mainAudio) {
+                mainAudio.pause(); // Stop main website audio
+            }
+
+            const bgm = document.getElementById("bgm-audio");
+            const musicToggle = document.getElementById("music-toggle");
+            if (bgm) {
+                bgm.volume = 0.5;
+                if (bgm.currentTime < 29) {
+                    bgm.currentTime = 29; // Start from 29 seconds
+                }
+                // Attempt auto-play when opening game
+                bgm.play().catch(e => console.log("Audio autoplay blocked until interaction.", e));
+            }
+        }
+
+        const musicToggleBtn = document.getElementById("music-toggle");
+        if (musicToggleBtn) {
+            musicToggleBtn.addEventListener("click", () => {
+                const bgm = document.getElementById("bgm-audio");
+                if (!bgm) return;
+                
+                if (bgm.paused) {
+                    bgm.play();
+                    musicToggleBtn.textContent = "🔊";
+                    musicToggleBtn.classList.remove("text-gray-500");
+                    musicToggleBtn.classList.add("text-[#ff00ff]");
+                } else {
+                    bgm.pause();
+                    musicToggleBtn.textContent = "🔇";
+                    musicToggleBtn.classList.remove("text-[#ff00ff]");
+                    musicToggleBtn.classList.add("text-gray-500");
+                }
+            });
         }
 
         const closeArcadeBtn = document.getElementById("close-arcade-game");
@@ -1055,6 +1092,24 @@ i always am all yours`
                 document.getElementById("celebration-screen").classList.add("hidden");
                 questLevel = 0;
                 loadQuestLevel(questLevel);
+            });
+        }
+
+        // Hopping Jar Logic
+        const hoppingJar = document.getElementById("hopping-jar");
+        const loveLetterOverlay = document.getElementById("love-letter-overlay");
+        const closeLetterBtn = document.getElementById("close-letter-btn");
+
+        if (hoppingJar && loveLetterOverlay) {
+            hoppingJar.addEventListener("click", () => {
+                loveLetterOverlay.classList.remove("hidden");
+                gsap.fromTo(loveLetterOverlay.querySelector("div"), { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.2)" });
+            });
+        }
+        
+        if (closeLetterBtn) {
+            closeLetterBtn.addEventListener("click", () => {
+                loveLetterOverlay.classList.add("hidden");
             });
         }
         // =====================================
